@@ -291,7 +291,7 @@ def right():
     return '0'
 
 @app.route('/close')
-def close():
+def myclose():
     os.system('irsend SEND_ONCE light key_close')
     return '0'
 
