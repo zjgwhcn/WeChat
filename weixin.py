@@ -290,6 +290,26 @@ def right():
     module.turn('right')
     return '0'
 
+@app.route('/close')
+def close():
+    os.system('irsend SEND_ONCE light key_close')
+    return '0'
+
+@app.route('/open')
+def open():
+    os.system('irsend SEND_ONCE light key_open')
+    return '0'
+
+@app.route('/up')
+def up():
+    os.system('irsend SEND_ONCE light key_up')
+    return '0'
+
+@app.route('/down')
+def down():
+    os.system('irsend SEND_ONCE light key_down')
+    return '0'
+
 
 def check(signature, timestamp, nonce):
     token = 'CJJW'
