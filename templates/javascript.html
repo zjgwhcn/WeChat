@@ -80,7 +80,7 @@
     xmlhttp.open("GET","http://192.168.199.124:5000/open",true);
     xmlhttp.send();
     }
-    function close(){
+    function myclose(){
     var xmlhttp;
     if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
@@ -120,7 +120,7 @@
     <div id="123" align="center">
       <button type ="button" onclick="left()" align="center">left</button>
       <button type ="button" onclick="right()" align="center">right</button>
-      <button type ="button" onclick="close()" align="center">close</button>
+      <button type ="button" onclick="myclose()" align="center">close</button>
       <button type ="button" onclick="myopen()" align="center">open</button>
       <button type ="button" onclick="up()" align="center">up</button>
       <button type ="button" onclick="mydown()" align="center">down</button>
