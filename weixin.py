@@ -35,16 +35,16 @@ def get_access_token():
 
 
 def upload():
-    f = open('/usr/src/weixin/1.jpg', 'wb')
+    f = open('/root/WeChat/1.jpg', 'wb')
     f.write(urllib.request.urlopen(
         'http://192.168.199.135:8080/?action=snapshot').read())
     f.close()
-    f = open('/usr/src/weixin/1.jpg', 'rb')
+    f = open('/root/WeChat/1.jpg', 'rb')
     url = 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=image' % get_access_token()
     req = requests.post(url, files={'file': f})
     print(req.text)
     f.close()
-    os.remove('/usr/src/weixin/1.jpg')
+    os.remove('/root/WeChat/1.jpg')
     return json.loads(req.text).get('media_id')
 
 
