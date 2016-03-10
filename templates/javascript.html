@@ -69,7 +69,7 @@
     xmlhttp.open("GET","http://192.168.199.124:5000/right",true);
     xmlhttp.send();
     }
-    function open(){
+    function myopen(){
     var xmlhttp;
     if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
@@ -102,7 +102,7 @@
     xmlhttp.open("GET","http://192.168.199.124:5000/up",true);
     xmlhttp.send();
     }
-    function down(){
+    function mydown(){
     var xmlhttp;
     if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
@@ -121,9 +121,9 @@
       <button type ="button" onclick="left()" align="center">left</button>
       <button type ="button" onclick="right()" align="center">right</button>
       <button type ="button" onclick="close()" align="center">close</button>
-      <button type ="button" onclick="open()" align="center">open</button>
+      <button type ="button" onclick="myopen()" align="center">open</button>
       <button type ="button" onclick="up()" align="center">up</button>
-      <button type ="button" onclick="down()" align="center">down</button>
+      <button type ="button" onclick="mydown()" align="center">down</button>
     </div>
     
     

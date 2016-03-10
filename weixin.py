@@ -296,7 +296,7 @@ def close():
     return '0'
 
 @app.route('/open')
-def open():
+def myopen():
     os.system('irsend SEND_ONCE light key_open')
     return '0'
 
@@ -306,7 +306,7 @@ def up():
     return '0'
 
 @app.route('/down')
-def down():
+def mydown():
     os.system('irsend SEND_ONCE light key_down')
     return '0'
 
