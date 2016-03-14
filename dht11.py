@@ -13,7 +13,7 @@ def startSignal(channel):
 
 def getData(channel):
     gpio.setwarnings(False)
-    gpio.setmode(gpio.BOARD)
+    gpio.setmode(gpio.BCM)
     time.sleep(1)
     data = []
     j = 0
@@ -71,13 +71,13 @@ def getData(channel):
 
     tmp = humidity + humidity_point + temperature + temperature_point
     if check == tmp:
-        #print ("当前温度为%d℃,相对湿度为%d%" % (temperature,humidity))
-        return (u"当前温度为%d℃,相对湿度为%d%%") % (temperature, humidity)
+        #print ("当前温度为%d,相对湿度为%d" % (temperature,humidity))
+        return (u"当前温度为%d℃,相对湿度为%d%%") % (temperature,humidity)
     else:
         return getData(channel)
     #gpio.cleanup()
 
 
 def get_temperature():
-    channel = 12
+    channel = 4
     return getData(channel)

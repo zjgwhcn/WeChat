@@ -4,9 +4,9 @@ import time
 
 def turn(direction):
     gpio.setwarnings(False)
-    gpio.setmode(gpio.BOARD)
+    gpio.setmode(gpio.BCM)
 
-    channel = [40, 38, 36, 35]
+    channel = [13, 19, 16, 20]
 
     arr = [0, 1, 2, 3]
 

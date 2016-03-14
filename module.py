@@ -2,7 +2,7 @@ import RPi.GPIO as gpio
 import time
 
 gpio.setwarnings(False)
-gpio.setmode(gpio.BOARD)
+gpio.setmode(gpio.BCM)
 
 
 def startSignal(channel):
@@ -80,7 +80,7 @@ def getData(channel):
 
 
 def get_temperature():
-    channel = 12
+    channel = 4
     return getData(channel)
 
 
@@ -100,7 +100,7 @@ def check():
 
 def turn(direction):
 
-    channel = [40, 38, 36, 35]
+    channel = [13, 19, 16, 20]
 
     arr = [0, 1, 2, 3]
 

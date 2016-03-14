@@ -3,8 +3,8 @@ import RPi.GPIO as gpio
 
 def check():
     gpio.setwarnings(False)
-    gpio.setmode(gpio.BOARD)
-    channel = 11
+    gpio.setmode(gpio.BCM)
+    channel = 27
     # time.sleep(60)
     # gpio.setup(channel,gpio.OUT)
     # gpio.output(channel,gpio.HIGH)
@@ -14,3 +14,7 @@ def check():
         return 1
     else:
         return 0
+
+if __name__ == '__main__':
+    while True:
+        print(check(),end = '')
