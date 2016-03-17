@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<head>
+    <title>实时监控</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+    
+    <script type="text/javascript">
+    /* Copyright (C) 2007 Richard Atterer, richard©atterer.net
+    * This program is free software; you can redistribute it and/or modify it
+    * under the terms of the GNU General Public License, version 2. See the file
+    * COPYING for details.
+    */
+    var imageNr = 0; // Serial number of current image
+    var finished = new Array(); // References to img objects which have finished downloading
+    var paused = false;
+    msa = [], wsize = 4;
+    function createImageLayer() {
+    var img = new Image();
+    img.style.position = "absolute";
+    img.style.zIndex = -1;
+    img.onload = imageOnload;
+    img.onclick = imageOnclick;
+    img.width = 320;
+    img.height = 240;
+    img.src = "http://192.168.199.124:8080/?action=snapshot&n=" + (++imageNr);
+    var webcam = document.getElementById("webcam");
+    
+    
+    webcam.insertBefore(img, webcam.firstChild);
+    
+    }
+    
+    
+    // Two layers are always present (except at the very beginning), to avoid flicker
+    function imageOnload() {
+    this.style.zIndex = imageNr; // Image finished, bring to front!
+    while (1 < finished.length) {
+    var del = finished.shift(); // Delete old image(s) from document
+    del.parentNode.removeChild(del);
+    }
+    finished.push(this);
+    
+    if (!paused) createImageLayer();
+    }
+    function imageOnclick() { // Clicking on the image will pause the stream
+    paused = !paused;
+    if (!paused) createImageLayer();
+    }
+    function left(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/left",true);
+    xmlhttp.send();
+    }
+    function right(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/right",true);
+    xmlhttp.send();
+    }
+    function myopen(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/open",true);
+    xmlhttp.send();
+    }
+    function myclose(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/close",true);
+    xmlhttp.send();
+    }
+    function up(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/up",true);
+    xmlhttp.send();
+    }
+    function mydown(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/down",true);
+    xmlhttp.send();
+    }
+    </script>
+    <style>
+    *{
+    margin: 0;
+    padding: 0;
+    }
+    .direction{
+    width: 40px;
+    height: 40px;
+    position: relative;
+    left: 60px;
+    top: 60px
+    }
+    .direction .btn{
+    width: 100%;
+    height: 100%;
+/*    background-color: black; */
+    position: absolute
+    }
+    .up{
+    background-image: url(/static/up.png);
+    top: -100%;
+    }
+    .down{
+    background-image: url(/static/down.png);
+    bottom: -100%;
+    }
+    .left{
+    background-image: url(/static/left.png);
+    left: -100%
+    }
+    .right{
+    background-image: url(/static/right.png);
+    right: -100%
+    }
+    
+    .function{
+    float: right;
+    margin-right: 30px;
+    margin-top: -10px;
+    }
+    .function .btn{
+    width: 36px;
+    height: 36px;
+    border-radius: 20%;
+    /* background-color: rgba(32,64,122, .7); */
+    }
+
+    .open{
+    background-image: url(/static/open.png);
+    background-repeat: no-repeat;
+    }
+    .close{
+    background-repeat: no-repeat;
+    background-image: url(/static/close.png);
+    }
+    .dark{
+    background-repeat: no-repeat;
+    background-image: url(/static/dark.png);
+    }
+    .light{
+    background-repeat: no-repeat;
+    background-image: url(/static/light.png);
+    }
+    .turn_left{
+    background-repeat: no-repeat;
+    background-image: url(/static/turn_left.png);
+    }
+    .turn_right{
+    background-image: url(/static/turn_right.png);
+    }
+
+    ul li{
+    list-style: none;
+    }
+    
+    ul li{
+    display: inline-block;
+    margin: 10px;
+    }
+
+
+    .boot{
+    width: 40px;
+    height: 20px;
+    background: #606C78;
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    bottom: 10%;
+    }
+    </style>
+</head>
+<body onload="createImageLayer();" style="background-color:#C0C0C0">
+    <div id="show" style="height:280px;background-color:#606C78;border-radius:10px">
+        <div  id="show2" style="height:20px"></div>
+        <div id="webcam" style="width:320px;height:240px;margin:0 auto;border-radius:5px" align="center" ></div>
+        <div  id="show3" style="height:20px"></div>
+    </div>
+    <div class="control">
+        <div class="direction">
+            <div class="btn up" onclick="up()" ></div>
+            <div class="btn down" onclick="down()" ></div>
+            <div class="btn left" onclick="left()"></div>
+            <div class="btn right" onclick="right()" ></div>
+        </div>
+        <div class="function">
+            <ul>
+                <li class="btn open"></li>
+                <li class="btn light"></li>
+                <li class="btn turn_left"></li>
+            </ul>
+            <ul>
+                <li class="btn close"></li>
+                <li class="btn dark"></li>
+                <li class="btn turn_right"></li>
+            </ul>
+        </div>
+        <div class="boot">
+            
+        </div>
+    </div>
+</body>
+</html>
