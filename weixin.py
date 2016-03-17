@@ -9,6 +9,7 @@ import urllib.request
 import requests
 import module
 import threading
+import car
 
 
 app = Flask(__name__)
@@ -276,7 +277,7 @@ def wechat():
 
 @app.route('/')
 def monitor():
-    return render_template('javascript.html')
+    return render_template('index.html')
 
 
 @app.route('/left')
@@ -302,12 +303,14 @@ def myopen():
 
 @app.route('/up')
 def up():
-    os.system('irsend SEND_ONCE light key_up')
+    #os.system('irsend SEND_ONCE light key_up')
+    car.up()
     return '0'
 
 @app.route('/down')
 def mydown():
-    os.system('irsend SEND_ONCE light key_down')
+    #os.system('irsend SEND_ONCE light key_down')
+    car.down()
     return '0'
 
 
