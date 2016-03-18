@@ -305,40 +305,40 @@ def myopen():
 
 
 @app.route('/lightup')
-def up():
+def lightup():
     os.system('irsend SEND_ONCE light key_up')
     return '0'
 
 
 @app.route('/lightdown')
-def mydown():
+def lightdown():
     os.system('irsend SEND_ONCE light key_down')
     return '0'
 
-@app.route('/movetup')
-def up():
+@app.route('/moveup')
+def moveup():
     car.up()
     return '0'
 
 
 @app.route('/movedown')
-def mydown():
+def movedown():
     car.down()
     return '0'
 
 @app.route('/carleft')
-def left():
+def carleft():
     car.left()
     return '0'
 
 
 @app.route('/carright')
-def right():
+def carright():
     car.right()
     return '0'
 
 @app.route('/carstop')
-def right():
+def carstop():
     car.stop()
     return '0'
 

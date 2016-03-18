@@ -44,8 +44,8 @@ def up():
     gpio.output(INT3, gpio.HIGH)
     gpio.output(INT2, gpio.LOW)
     gpio.output(INT4, gpio.LOW)
-    time.sleep(1)
-    stop()
+    #time.sleep(1)
+    #stop()
 
 
 def down():
@@ -55,26 +55,26 @@ def down():
     gpio.output(INT1, gpio.LOW)
     gpio.output(INT4, gpio.HIGH)
     gpio.output(INT3, gpio.LOW)
-    time.sleep(1)
-    stop()
+    #time.sleep(1)
+    #stop()
 
 
-def left():
-    p1.start(20)
+def right():
+    p1.start(10)
     gpio.output(INT4, gpio.LOW)
     gpio.output(INT3, gpio.LOW)
-    gpio.output(INT2, gpio.HIGH)
-    gpio.output(INT1, gpio.LOW)
+    gpio.output(INT2, gpio.LOW)
+    gpio.output(INT1, gpio.HIGH)
     time.sleep(0.5)
     stop()
 
 
-def right():
-    p2.start(20)
+def left():
+    p2.start(10)
     gpio.output(INT2, gpio.LOW)
     gpio.output(INT1, gpio.LOW)
-    gpio.output(INT4, gpio.HIGH)
-    gpio.output(INT3, gpio.LOW)
+    gpio.output(INT4, gpio.LOW)
+    gpio.output(INT3, gpio.HIGH)
     time.sleep(0.5)
     stop()
 
