@@ -46,6 +46,73 @@
     paused = !paused;
     if (!paused) createImageLayer();
     }
+    function carleft(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/carleft",true);
+    xmlhttp.send();
+    }
+    function carright(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/carright",true);
+    xmlhttp.send();
+    }
+    function openlight(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/openlight",true);
+    xmlhttp.send();
+    }
+    function closelight(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/closelight",true);
+    xmlhttp.send();
+    }
+    function moveup(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/moveup",true);
+    xmlhttp.send();
+    }
+    function movedown(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+    xmlhttp=new XMLHttpRequest();
+    }
+    else{
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("GET","http://192.168.199.124:5000/movedown",true);
+    xmlhttp.send();
+    }
+   
     function left(){
     var xmlhttp;
     if (window.XMLHttpRequest){
@@ -68,7 +135,7 @@
     xmlhttp.open("GET","http://192.168.199.124:5000/right",true);
     xmlhttp.send();
     }
-    function myopen(){
+    function lightup(){
     var xmlhttp;
     if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
@@ -76,10 +143,10 @@
     else{
     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.open("GET","http://192.168.199.124:5000/open",true);
+    xmlhttp.open("GET","http://192.168.199.124:5000/lightup",true);
     xmlhttp.send();
     }
-    function myclose(){
+    function lightdown(){
     var xmlhttp;
     if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
@@ -87,10 +154,10 @@
     else{
     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.open("GET","http://192.168.199.124:5000/close",true);
+    xmlhttp.open("GET","http://192.168.199.124:5000/lightdown",true);
     xmlhttp.send();
     }
-    function up(){
+    function carstop(){
     var xmlhttp;
     if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
@@ -98,18 +165,7 @@
     else{
     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.open("GET","http://192.168.199.124:5000/up",true);
-    xmlhttp.send();
-    }
-    function mydown(){
-    var xmlhttp;
-    if (window.XMLHttpRequest){
-    xmlhttp=new XMLHttpRequest();
-    }
-    else{
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.open("GET","http://192.168.199.124:5000/down",true);
+    xmlhttp.open("GET","http://192.168.199.124:5000/carstop",true);
     xmlhttp.send();
     }
     </script>
@@ -213,24 +269,24 @@
     </div>
     <div class="control">
         <div class="direction">
-            <div class="btn up" onclick="up()" ></div>
-            <div class="btn down" onclick="mydown()" ></div>
-            <div class="btn left" onclick="left()"></div>
-            <div class="btn right" onclick="right()" ></div>
+            <div class="btn up" onclick="moveup()" ></div>
+            <div class="btn down" onclick="movedown()" ></div>
+            <div class="btn left" onclick="carleft()"></div>
+            <div class="btn right" onclick="carright()" ></div>
         </div>
         <div class="function">
             <ul>
-                <li class="btn open"></li>
-                <li class="btn light"></li>
-                <li class="btn turn_left"></li>
+                <li class="btn open" onclick="openlight()"></li>
+                <li class="btn light" onclick="lightup()"></li>
+                <li class="btn turn_left" onclick="left()"></li>
             </ul>
             <ul>
-                <li class="btn close"></li>
-                <li class="btn dark"></li>
-                <li class="btn turn_right"></li>
+                <li class="btn close" onclick="closelight()"></li>
+                <li class="btn dark" onclick="lightdown()"></li>
+                <li class="btn turn_right" onclick="right()"></li>
             </ul>
         </div>
-        <div class="boot">
+        <div class="boot" onclick="carstop()">
             
         </div>
     </div>

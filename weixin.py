@@ -11,7 +11,6 @@ import module
 import threading
 import car
 
-
 app = Flask(__name__)
 app.debug = True
 
@@ -24,7 +23,6 @@ auto_safe_flag = OFF
 
 
 def get_access_token():
-
     AppID = 'wx6b11c0a7c39c89bb'
     AppSecret = 'f8dce47284bab8aa55e1ffd7798eab39'
     url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (
@@ -61,6 +59,7 @@ def get_openid():
     req = urllib.request.urlopen(url)
     idlist = json.loads(req.read().decode()).get('data').get('openid')
     return idlist
+
 
 idlist = get_openid()
 
@@ -228,6 +227,7 @@ def do_auto_move_off(toUser, fromUser, root):
         return render_template('text.xml', toUser=fromUser, fromUser=toUser,
                                createTime=int(time.time()), content=u'摄像头自动旋转并未开启，不需要关闭')
 
+
 rec_type = {
     'text': recv_text,
     'event': recv_event
@@ -291,26 +291,55 @@ def right():
     module.turn('right')
     return '0'
 
-@app.route('/close')
+
+@app.route('/closelight')
 def myclose():
     os.system('irsend SEND_ONCE light key_close')
     return '0'
 
-@app.route('/open')
+
+@app.route('/openlight')
 def myopen():
     os.system('irsend SEND_ONCE light key_open')
     return '0'
 
-@app.route('/up')
+
+@app.route('/lightup')
 def up():
-    #os.system('irsend SEND_ONCE light key_up')
+    os.system('irsend SEND_ONCE light key_up')
+    return '0'
+
+
+@app.route('/lightdown')
+def mydown():
+    os.system('irsend SEND_ONCE light key_down')
+    return '0'
+
+@app.route('/movetup')
+def up():
     car.up()
     return '0'
 
-@app.route('/down')
+
+@app.route('/movedown')
 def mydown():
-    #os.system('irsend SEND_ONCE light key_down')
     car.down()
+    return '0'
+
+@app.route('/carleft')
+def left():
+    car.left()
+    return '0'
+
+
+@app.route('/carright')
+def right():
+    car.right()
+    return '0'
+
+@app.route('/carstop')
+def right():
+    car.stop()
     return '0'
 
 

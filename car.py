@@ -19,8 +19,6 @@ gpio.setup(pin2,gpio.OUT)
 
 p1 = gpio.PWM(pin1,8)
 p2 = gpio.PWM(pin2,8)
-p1.start(40)
-p2.start(40)
 speed = 10
 
 def addspeed():
@@ -40,6 +38,8 @@ def downspeed():
     p2.ChangeDutyCycle(speed)
     
 def up():
+    p1.start(40)
+    p2.start(40)
     gpio.output(INT1, gpio.HIGH)
     gpio.output(INT3, gpio.HIGH)
     gpio.output(INT2, gpio.LOW)
@@ -49,6 +49,8 @@ def up():
 
 
 def down():
+    p1.start(40)
+    p2.start(40)
     gpio.output(INT2, gpio.HIGH)
     gpio.output(INT1, gpio.LOW)
     gpio.output(INT4, gpio.HIGH)
@@ -58,13 +60,23 @@ def down():
 
 
 def left():
+    p1.start(20)
+    gpio.output(INT4, gpio.LOW)
+    gpio.output(INT3, gpio.LOW)
     gpio.output(INT2, gpio.HIGH)
     gpio.output(INT1, gpio.LOW)
+    time.sleep(0.5)
+    stop()
 
 
 def right():
+    p2.start(20)
+    gpio.output(INT2, gpio.LOW)
+    gpio.output(INT1, gpio.LOW)
     gpio.output(INT4, gpio.HIGH)
     gpio.output(INT3, gpio.LOW)
+    time.sleep(0.5)
+    stop()
 
 
 def stop():
