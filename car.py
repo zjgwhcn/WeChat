@@ -34,8 +34,8 @@ def plusspeed():
 def reducespeed():
     global speed
     speed -= 10
-    if speed < 40:
-        speed = 40
+    if speed < 0:
+        speed = 10
     p1.ChangeDutyCycle(speed)
     p2.ChangeDutyCycle(speed)
     
