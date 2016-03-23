@@ -342,6 +342,15 @@ def carstop():
     car.stop()
     return '0'
 
+@app.route('/plus')
+def plusspeed():
+    car.plusspeed()
+    return '0'
+
+@app.route('/reduce')
+def reducespeed():
+    car.reducespeed()
+    return '0'
 
 def check(signature, timestamp, nonce):
     token = 'CJJW'
