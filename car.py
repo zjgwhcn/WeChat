@@ -19,7 +19,7 @@ gpio.setup(pin2,gpio.OUT)
 
 p1 = gpio.PWM(pin1,8)
 p2 = gpio.PWM(pin2,8)
-speed1 = 40
+speed = 40
 p1.start(speed)
 p2.start(speed)
 
