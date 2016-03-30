@@ -4,7 +4,7 @@ import os
 import json
 import urllib.request
 import requests
-from flask import current_app, render_template
+from flask import render_template
 from .main import humiture, humaninfrared, motor
 import threading
 
@@ -14,11 +14,21 @@ ON = 1
 auto_move_flag = OFF
 auto_safe_flag = OFF
 
+APP_ID = os.environ.get('APP_ID')
+APP_SECRET = os.environ.get('APP_SECRET')
+URL_PIC_DOWNLOAD = 'http://192.168.199.135:8080/?action=snapshot'
+
+# 需要格式化appid和secret
+URL_ACESSTOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s'
+
+# 需要格式化uaaccess_token
+URL_OPENID = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid'
+URL_CUSTOMER_SERVICE = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s'
+URL_PIC_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=image'
+
 
 def get_access_token():
-    app = current_app._get_current_object()
-    url = app.config['URL_ACESSTOKEN'] % (
-        app.config['APP_ID'], app.config['APP_SECRET'])
+    url = URL_ACESSTOKEN % (APP_ID, APP_SECRET)
 
     result = urllib.request.urlopen(url).read().decode()
     access_token = json.loads(result).get('access_token')
@@ -26,12 +36,11 @@ def get_access_token():
 
 
 def upload():
-    app = current_app._get_current_object()
     f = open('/root/WeChat/1.jpg', 'wb')
-    f.write(urllib.request.urlopen(app.config['URL_PIC_DOWNLOAD']).read())
+    f.write(urllib.request.urlopen(URL_PIC_DOWNLOAD).read())
     f.close()
     f = open('/root/WeChat/1.jpg', 'rb')
-    url = app.config['URL_PIC_UPLOAD'] % get_access_token()
+    url = URL_PIC_UPLOAD % get_access_token()
     req = requests.post(url, files={'file': f})
     print(req.text)
     f.close()
@@ -46,13 +55,12 @@ def auto_move():
 
 
 def get_openid():
-    global idlist
-    app = current_app._get_current_object()
-    url = app.config['URL_OPENID'] % get_access_token()
+    url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid' % get_access_token()
     req = urllib.request.urlopen(url)
     idlist = json.loads(req.read().decode()).get('data').get('openid')
     return idlist
 
+idlist = get_openid()
 
 def get_temperture():
     custom_reply('text', humiture.get_humiture())
@@ -67,7 +75,7 @@ def check_safe():
 
 
 def custom_reply(msgType, content):
-    idlist = get_openid()
+    global idlist
     url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s' % get_access_token()
 
     def text(content):
