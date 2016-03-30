@@ -33,79 +33,79 @@ def monitor():
     return render_template('index.html')
 
 
-@app.route('/left')
+@main.route('/left')
 def left():
     motor.turn('left')
     return '0'
 
 
-@app.route('/right')
+@main.route('/right')
 def right():
     motor.turn('right')
     return '0'
 
 
-@app.route('/closelight')
+@main.route('/closelight')
 def myclose():
     os.system('irsend SEND_ONCE light key_close')
     return '0'
 
 
-@app.route('/openlight')
+@main.route('/openlight')
 def myopen():
     os.system('irsend SEND_ONCE light key_open')
     return '0'
 
 
-@app.route('/lightup')
+@main.route('/lightup')
 def lightup():
     os.system('irsend SEND_ONCE light key_up')
     return '0'
 
 
-@app.route('/lightdown')
+@main.route('/lightdown')
 def lightdown():
     os.system('irsend SEND_ONCE light key_down')
     return '0'
 
 
-@app.route('/moveup')
+@main.route('/moveup')
 def moveup():
     car.up()
     return '0'
 
 
-@app.route('/movedown')
+@main.route('/movedown')
 def movedown():
     car.down()
     return '0'
 
 
-@app.route('/carleft')
+@main.route('/carleft')
 def carleft():
     car.left()
     return '0'
 
 
-@app.route('/carright')
+@main.route('/carright')
 def carright():
     car.right()
     return '0'
 
 
-@app.route('/carstop')
+@main.route('/carstop')
 def carstop():
     car.stop()
     return '0'
 
 
-@app.route('/plus')
+@main.route('/plus')
 def plusspeed():
     car.plusspeed()
     return '0'
 
 
-@app.route('/reduce')
+@main.route('/reduce')
 def reducespeed():
     car.reducespeed()
     return '0'

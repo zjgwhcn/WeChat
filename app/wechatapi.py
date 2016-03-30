@@ -13,10 +13,10 @@ OFF = 0
 ON = 1
 auto_move_flag = OFF
 auto_safe_flag = OFF
-app = current_app._get_current_object()
 
 
 def get_access_token():
+    app = current_app._get_current_object()
     url = app.config['URL_ACESSTOKEN'] % (
         app.config['APP_ID'], app.config['APP_SECRET'])
 
@@ -26,6 +26,7 @@ def get_access_token():
 
 
 def upload():
+    app = current_app._get_current_object()
     f = open('/root/WeChat/1.jpg', 'wb')
     f.write(urllib.request.urlopen(app.config['URL_PIC_DOWNLOAD']).read())
     f.close()
