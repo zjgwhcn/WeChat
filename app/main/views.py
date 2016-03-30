@@ -101,11 +101,11 @@ def carstop():
 
 @main.route('/plus')
 def plusspeed():
-    car.plusspeed()
+    car.speedplus()
     return '0'
 
 
 @main.route('/reduce')
 def reducespeed():
-    car.reducespeed()
+    car.speedreduce()
     return '0'

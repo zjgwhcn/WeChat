@@ -1,9 +1,8 @@
-import RPi.GPIO as gpio
 import time
+import RPi.GPIO as gpio
 
 gpio.setwarnings(False)
 gpio.setmode(gpio.BCM)
-
 
 class ModuleHumiture:
 
@@ -88,15 +87,14 @@ class ModuleHumanInfraredInduction:
 
     def __init__(self, channel):
         self.channel = channel
+        gpio.setup(self.channel, gpio.IN)
 
     def has_people(self):
-        # channel = 11
+        # channel = 27
         # time.sleep(60)
         # gpio.setup(channel,gpio.OUT)
         # gpio.output(channel,gpio.HIGH)
-        gpio.setup(self.channel, gpio.IN)
         if gpio.input(self.channel):
-            gpio.cleanup()
             return 1
         else:
             return 0
@@ -106,6 +104,7 @@ class StepperMotor:
 
     def __init__(self, channel):
         self.channel = channel
+
 
     def turn(self, direction):
 
@@ -139,7 +138,7 @@ class StepperMotor:
 
 class Car:
 
-    def __init__(self, channel, pin1, pin2, speed=40, frequency=8):
+    def __init__(self, channel, pin1, pin2, speed=10, frequency=1):
         self.channel = channel
         self.pin1 = pin1
         self.pin2 = pin2
@@ -147,6 +146,7 @@ class Car:
         self.frequency = frequency
         self.p1 = None
         self.p2 = None
+        print('creat car')
 
         self.init_car()
 
@@ -164,32 +164,43 @@ class Car:
         self.p2.start(self.speed)
 
     def speedplus(self):
+        print('enter speedplus')
+        print(self.speed)
         self.speed += 10
         if self.speed > 100:
             self.speed = 100
+        print(self.speed)
         self.p1.ChangeDutyCycle(self.speed)
-        self.p2.ChangeDuteCycle(self.speed)
+        self.p2.ChangeDutyCycle(self.speed)
+        print('exit speedplus')
 
     def speedreduce(self):
+        print('enter speedreduce')
+        print(self.speed)
         self.speed -= 10
-        if self.speed < 0:
+        if self.speed < 10:
             self.speed = 10
+        print(self.speed)
         self.p1.ChangeDutyCycle(self.speed)
-        self.p2.ChangeDuteCycle(self.speed)
+        self.p2.ChangeDutyCycle(self.speed)
+        print('exit speedreduce')
 
     def up(self):
+        print(self.speed)
         gpio.output(self.channel[0], gpio.HIGH)
         gpio.output(self.channel[2], gpio.HIGH)
         gpio.output(self.channel[1], gpio.LOW)
         gpio.output(self.channel[3], gpio.LOW)
 
     def down(self):
+        print(self.speed)
         gpio.output(self.channel[1], gpio.HIGH)
         gpio.output(self.channel[3], gpio.HIGH)
         gpio.output(self.channel[0], gpio.LOW)
         gpio.output(self.channel[2], gpio.LOW)
 
     def right(self):
+        print(self.speed)
         gpio.output(self.channel[3], gpio.LOW)
         gpio.output(self.channel[2], gpio.LOW)
         gpio.output(self.channel[1], gpio.LOW)
@@ -198,6 +209,7 @@ class Car:
         self.stop()
 
     def left(self):
+        print(self.speed)
         gpio.output(self.channel[1], gpio.LOW)
         gpio.output(self.channel[0], gpio.LOW)
         gpio.output(self.channel[3], gpio.LOW)

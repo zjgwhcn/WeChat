@@ -14,9 +14,10 @@ ON = 1
 auto_move_flag = OFF
 auto_safe_flag = OFF
 
-APP_ID = os.environ.get('APP_ID')
-APP_SECRET = os.environ.get('APP_SECRET')
-URL_PIC_DOWNLOAD = 'http://192.168.199.135:8080/?action=snapshot'
+APP_ID = 'wx6b11c0a7c39c89bb'
+APP_SECRET = 'f8dce47284bab8aa55e1ffd7798eab39'
+
+URL_PIC_DOWNLOAD = 'http://192.168.199.124:8080/?action=snapshot'
 
 # 需要格式化appid和secret
 URL_ACESSTOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s'
@@ -36,15 +37,15 @@ def get_access_token():
 
 
 def upload():
-    f = open('/root/WeChat/1.jpg', 'wb')
+    f = open('/root/WeChat/app/static/snapshot.jpg', 'wb')
     f.write(urllib.request.urlopen(URL_PIC_DOWNLOAD).read())
     f.close()
-    f = open('/root/WeChat/1.jpg', 'rb')
+    f = open('/root/WeChat/app/static/snapshot.jpg', 'rb')
     url = URL_PIC_UPLOAD % get_access_token()
     req = requests.post(url, files={'file': f})
     print(req.text)
     f.close()
-    os.remove('/root/WeChat/1.jpg')
+    os.remove('/root/WeChat/app/static/snapshot.jpg')
     return json.loads(req.text).get('media_id')
 
 
@@ -72,6 +73,8 @@ def check_safe():
         if humaninfrared.has_people():
             custom_reply('text', '有人进入监控范围')
             custom_reply('img', upload())
+            time.sleep(5)
+
 
 
 def custom_reply(msgType, content):
