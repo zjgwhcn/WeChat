@@ -47,6 +47,7 @@ def auto_move():
 
 def get_openid():
     global idlist
+    app = current_app._get_current_object()
     url = app.config['URL_OPENID'] % get_access_token()
     req = urllib.request.urlopen(url)
     idlist = json.loads(req.read().decode()).get('data').get('openid')
