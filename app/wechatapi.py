@@ -1,32 +1,24 @@
-from flask import Flask, request, render_template
-from flask.ext.script import Manager
 import time
 import hashlib
 import os
 import json
-import xml.etree.ElementTree as ET
 import urllib.request
 import requests
-import module
+from flask import current_app, render_template
+from .main import humiture, humaninfrared, motor
 import threading
-import car
 
-app = Flask(__name__)
-app.debug = True
-
-manager = Manager(app)
 
 OFF = 0
 ON = 1
 auto_move_flag = OFF
 auto_safe_flag = OFF
+app = current_app._get_current_object()
 
 
 def get_access_token():
-    AppID = 'wx6b11c0a7c39c89bb'
-    AppSecret = 'f8dce47284bab8aa55e1ffd7798eab39'
-    url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (
-        AppID, AppSecret)
+    url = app.config['URL_ACESSTOKEN'] % (
+        app.config['APP_ID'], app.config['APP_SECRET'])
 
     result = urllib.request.urlopen(url).read().decode()
     access_token = json.loads(result).get('access_token')
@@ -35,11 +27,10 @@ def get_access_token():
 
 def upload():
     f = open('/root/WeChat/1.jpg', 'wb')
-    f.write(urllib.request.urlopen(
-        'http://192.168.199.135:8080/?action=snapshot').read())
+    f.write(urllib.request.urlopen(app.config['URL_PIC_DOWNLOAD']).read())
     f.close()
     f = open('/root/WeChat/1.jpg', 'rb')
-    url = 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=image' % get_access_token()
+    url = app.config['URL_PIC_UPLOAD'] % get_access_token()
     req = requests.post(url, files={'file': f})
     print(req.text)
     f.close()
@@ -50,12 +41,12 @@ def upload():
 def auto_move():
     global auto_move_flag
     while auto_move_flag == ON:
-        module.on()
+        motor.auto_turn()
 
 
 def get_openid():
     global idlist
-    url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid' % get_access_token()
+    url = app.config['URL_OPENID'] % get_access_token()
     req = urllib.request.urlopen(url)
     idlist = json.loads(req.read().decode()).get('data').get('openid')
     return idlist
@@ -65,13 +56,13 @@ idlist = get_openid()
 
 
 def get_temperture():
-    custom_reply('text', module.get_temperature())
+    custom_reply('text', humiture.get_humiture())
 
 
 def check_safe():
     global auto_safe_flag
     while auto_safe_flag:
-        if module.check():
+        if humaninfrared.has_people():
             custom_reply('text', '有人进入监控范围')
             custom_reply('img', upload())
 
@@ -193,13 +184,13 @@ def do_auto_safe_off(toUser, fromUser, root):
 
 
 def do_turn_left(toUser, fromUser, root):
-    module.turn('left')
+    motor.turn('left')
     return render_template('text.xml', toUser=fromUser, fromUser=toUser,
                            createTime=int(time.time()), content=u'摄像头已左转45°')
 
 
 def do_turn_right(toUser, fromUser, root):
-    module.turn('right')
+    motor.turn('right')
     return render_template('text.xml', toUser=fromUser, fromUser=toUser,
                            createTime=int(time.time()), content=u'摄像头已右转45°')
 
@@ -252,106 +243,6 @@ click_type = {
 }
 
 
-@app.route('/weixin', methods=['GET', 'POST'])
-def wechat():
-    if request.method == 'GET':
-        data = request.args
-        echostr = data['echostr']
-        signature = data['signature']
-        timestamp = data['timestamp']
-        nonce = data['nonce']
-        if check(signature, timestamp, nonce):
-            return echostr
-    else:
-        rec = request.data
-        root = ET.fromstring(rec)
-        msgType = root.find('MsgType').text
-        toUser = root.find('ToUserName').text
-        fromUser = root.find('FromUserName').text
-        try:
-            return rec_type[msgType](toUser, fromUser, root)
-        except KeyError:
-            return render_template('text.xml', toUser=fromUser, fromUser=toUser,
-                                   createTime=int(time.time()), content=u'此功能正在开发中')
-
-
-@app.route('/')
-def monitor():
-    return render_template('index.html')
-
-
-@app.route('/left')
-def left():
-    module.turn('left')
-    return '0'
-
-
-@app.route('/right')
-def right():
-    module.turn('right')
-    return '0'
-
-
-@app.route('/closelight')
-def myclose():
-    os.system('irsend SEND_ONCE light key_close')
-    return '0'
-
-
-@app.route('/openlight')
-def myopen():
-    os.system('irsend SEND_ONCE light key_open')
-    return '0'
-
-
-@app.route('/lightup')
-def lightup():
-    os.system('irsend SEND_ONCE light key_up')
-    return '0'
-
-
-@app.route('/lightdown')
-def lightdown():
-    os.system('irsend SEND_ONCE light key_down')
-    return '0'
-
-@app.route('/moveup')
-def moveup():
-    car.up()
-    return '0'
-
-
-@app.route('/movedown')
-def movedown():
-    car.down()
-    return '0'
-
-@app.route('/carleft')
-def carleft():
-    car.left()
-    return '0'
-
-
-@app.route('/carright')
-def carright():
-    car.right()
-    return '0'
-
-@app.route('/carstop')
-def carstop():
-    car.stop()
-    return '0'
-
-@app.route('/plus')
-def plusspeed():
-    car.plusspeed()
-    return '0'
-
-@app.route('/reduce')
-def reducespeed():
-    car.reducespeed()
-    return '0'
-
 def check(signature, timestamp, nonce):
     token = 'CJJW'
     paralist = [token, nonce, timestamp]
@@ -360,6 +251,3 @@ def check(signature, timestamp, nonce):
     sha1 = hashlib.sha1()
     sha1.update(parastr.encode())
     return sha1.hexdigest() == signature
-
-
-manager.run()
