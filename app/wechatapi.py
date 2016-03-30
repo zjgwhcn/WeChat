@@ -54,9 +54,6 @@ def get_openid():
     return idlist
 
 
-idlist = get_openid()
-
-
 def get_temperture():
     custom_reply('text', humiture.get_humiture())
 
@@ -70,7 +67,7 @@ def check_safe():
 
 
 def custom_reply(msgType, content):
-    global idlist
+    idlist = get_openid()
     url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s' % get_access_token()
 
     def text(content):
