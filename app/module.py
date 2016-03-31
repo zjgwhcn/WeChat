@@ -138,7 +138,7 @@ class StepperMotor:
 
 class Car:
 
-    def __init__(self, channel, pin1, pin2, speed=10, frequency=1):
+    def __init__(self, channel, pin1, pin2, speed=10, frequency=8):
         self.channel = channel
         self.pin1 = pin1
         self.pin2 = pin2
