@@ -1,5 +1,6 @@
 import time
 import RPi.GPIO as gpio
+from threading import Thread
 
 gpio.setwarnings(False)
 gpio.setmode(gpio.BCM)
@@ -105,7 +106,6 @@ class StepperMotor:
     def __init__(self, channel):
         self.channel = channel
 
-
     def turn(self, direction):
 
         # channel = [13, 19, 16, 20]
@@ -146,7 +146,9 @@ class Car:
         self.frequency = frequency
         self.p1 = None
         self.p2 = None
-        print('creat car')
+        self.distance = 0
+        self.flag = True
+        self.servos = Servos()
 
         self.init_car()
 
@@ -156,6 +158,8 @@ class Car:
 
         gpio.setup(self.pin1, gpio.OUT)
         gpio.setup(self.pin2, gpio.OUT)
+        gpio.setup(26, gpio.OUT, initial=gpio.LOW)
+        gpio.setup(12, gpio.IN)
 
         self.p1 = gpio.PWM(self.pin1, self.frequency)
         self.p2 = gpio.PWM(self.pin2, self.frequency)
@@ -164,43 +168,42 @@ class Car:
         self.p2.start(self.speed)
 
     def speedplus(self):
-        print('enter speedplus')
-        print(self.speed)
+        self.p1.ChangeDutyCycle(0)
+        self.p2.ChangeDutyCycle(0)
         self.speed += 10
         if self.speed > 100:
             self.speed = 100
         print(self.speed)
         self.p1.ChangeDutyCycle(self.speed)
         self.p2.ChangeDutyCycle(self.speed)
-        print('exit speedplus')
 
     def speedreduce(self):
-        print('enter speedreduce')
-        print(self.speed)
+        self.p1.ChangeDutyCycle(0)
+        self.p2.ChangeDutyCycle(0)
+        self.stop()
         self.speed -= 10
         if self.speed < 10:
             self.speed = 10
         print(self.speed)
         self.p1.ChangeDutyCycle(self.speed)
         self.p2.ChangeDutyCycle(self.speed)
-        print('exit speedreduce')
 
     def up(self):
-        print(self.speed)
         gpio.output(self.channel[0], gpio.HIGH)
         gpio.output(self.channel[2], gpio.HIGH)
         gpio.output(self.channel[1], gpio.LOW)
         gpio.output(self.channel[3], gpio.LOW)
+        t = Thread(target=Car.auto_stop, args=(self,))
+        t.setDaemon(True)
+        t.start()
 
     def down(self):
-        print(self.speed)
         gpio.output(self.channel[1], gpio.HIGH)
         gpio.output(self.channel[3], gpio.HIGH)
         gpio.output(self.channel[0], gpio.LOW)
         gpio.output(self.channel[2], gpio.LOW)
 
     def right(self):
-        print(self.speed)
         gpio.output(self.channel[3], gpio.LOW)
         gpio.output(self.channel[2], gpio.LOW)
         gpio.output(self.channel[1], gpio.LOW)
@@ -209,7 +212,6 @@ class Car:
         self.stop()
 
     def left(self):
-        print(self.speed)
         gpio.output(self.channel[1], gpio.LOW)
         gpio.output(self.channel[0], gpio.LOW)
         gpio.output(self.channel[3], gpio.LOW)
@@ -220,4 +222,58 @@ class Car:
     def stop(self):
         for i in self.channel:
             gpio.output(i, gpio.LOW)
+
+    def get_distance(self):
+        t1, t2 = 0, 0
+        gpio.output(26, gpio.HIGH)
+        time.sleep(0.000015)
+        gpio.output(26, gpio.LOW)
+        while True:
+            if gpio.input(12):
+                t1 = time.time()
+                break
+        while True:
+            if not gpio.input(12):
+                t2 = time.time()
+                break
+        print((t2-t1)*340/2)
+        self.distance = (t2-t1)*340/2
+
+    def auto_control(self):
+
+        while self.flag:
+            if self.get_distance() < 0.5:
+                self.stop()
+                self.flag = False
+
+        self.servos.left()
+        distance_left = self.get_distance()
+        self.servos.right()
+        self.servos.right()
+        distance_right = self.get_distance()
+        self.servos.left()
+        if distance_left > distance_right:
+            self.left()
+        else:
+            self.right()
+
+
+class Servos:
+
+    def __init__(self):
+        gpio.setup(21,gpio.OUT)
+        self.p = gpio.PWM(21,50)
+        p.start(0)
+
+    def right(self):
+        self.p.ChangeDutyCycle(2.5)
+        time.sleep(0.1 )
+        self.p.ChangeDutyCycle(0)
+        time.sleep(0.2)
+
+    def left(self):
+        self.p.ChangeDutyCycle(12.5)
+        time.sleep(0.1)
+        self.p.ChangeDutyCycle(0)
+        time.sleep(0.2)
 

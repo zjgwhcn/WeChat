@@ -7,7 +7,7 @@ gpio.setwarnings(False)
 gpio.setup(26,gpio.OUT,initial=gpio.LOW)
 gpio.setup(12,gpio.IN)
 
-def check():
+def get_distance():
     gpio.output(26,gpio.HIGH)
     time.sleep(0.000015)
     gpio.output(26,gpio.LOW)
@@ -20,3 +20,4 @@ def check():
             t2 = time.time()
             break
     print((t2-t1)*340/2)
+    return (t2-t1)*340/2

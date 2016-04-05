@@ -30,6 +30,7 @@ def wechat():
 
 @main.route('/')
 def monitor():
+    shutdown()
     return render_template('index.html')
 
 
@@ -71,7 +72,10 @@ def lightdown():
 
 @main.route('/moveup')
 def moveup():
-    car.up()
+    if car.get_distance() > 0.5:
+        car.up()
+    else:
+        pass
     return '0'
 
 

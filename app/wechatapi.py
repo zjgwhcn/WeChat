@@ -7,6 +7,7 @@ import requests
 from flask import render_template
 from .main import humiture, humaninfrared, motor
 import threading
+from . import car
 
 
 OFF = 0
@@ -63,6 +64,7 @@ def get_openid():
 
 idlist = get_openid()
 
+
 def get_temperture():
     custom_reply('text', humiture.get_humiture())
 
@@ -73,9 +75,12 @@ def check_safe():
         if humaninfrared.has_people():
             custom_reply('text', '有人进入监控范围')
             custom_reply('img', upload())
-            time.sleep(5)
-
-
+            car.left()
+            custom_reply('img', upload())
+            car.right()
+            car.right()
+            custom_reply('img', upload())
+            car.left()
 
 def custom_reply(msgType, content):
     global idlist
@@ -261,3 +266,7 @@ def check(signature, timestamp, nonce):
     sha1 = hashlib.sha1()
     sha1.update(parastr.encode())
     return sha1.hexdigest() == signature
+
+def shutdown():
+    auto_safe_flag = OFF
+    auto_move_flag = OFF
