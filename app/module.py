@@ -237,7 +237,8 @@ class Car:
                 t2 = time.time()
                 break
         print((t2-t1)*340/2)
-        self.distance = (t2-t1)*340/2
+        self.distance = int((t2-t1)*340/2)
+        return self.distance
 
     def auto_control(self):
 
