@@ -263,7 +263,7 @@ class Servos:
     def __init__(self):
         gpio.setup(21,gpio.OUT)
         self.p = gpio.PWM(21,50)
-        p.start(0)
+        self.p.start(0)
 
     def right(self):
         self.p.ChangeDutyCycle(2.5)
