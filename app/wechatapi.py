@@ -268,5 +268,6 @@ def check(signature, timestamp, nonce):
     return sha1.hexdigest() == signature
 
 def shutdown():
+    global  auto_move_flag, auto_safe_flag
     auto_safe_flag = OFF
     auto_move_flag = OFF
