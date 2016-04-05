@@ -243,7 +243,7 @@ class Car:
     def auto_control(self):
 
         while self.flag:
-            if self.get_distance() < 0.5:
+            if self.get_distance() < 0.2:
                 self.stop()
                 self.flag = False
             else:
