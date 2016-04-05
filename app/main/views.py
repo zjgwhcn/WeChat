@@ -1,5 +1,6 @@
 from flask import render_template, current_app, request
-from . import main, motor, humaninfrared, humiture, car
+from . import main
+from .. import motor, humaninfrared, humiture, car
 import os
 from ..wechatapi import *
 import xml.etree.ElementTree as ET
