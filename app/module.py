@@ -189,7 +189,6 @@ class Car:
         self.p2.ChangeDutyCycle(self.speed)
 
     def up(self):
-        print('up')
         gpio.output(self.channel[0], gpio.HIGH)
         gpio.output(self.channel[2], gpio.HIGH)
         gpio.output(self.channel[1], gpio.LOW)
@@ -247,6 +246,8 @@ class Car:
             if self.get_distance() < 0.5:
                 self.stop()
                 self.flag = False
+            else:
+                continue
 
         self.servos.left()
         distance_left = self.get_distance()

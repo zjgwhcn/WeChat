@@ -74,7 +74,6 @@ def lightdown():
 @main.route('/moveup')
 def moveup():
     if car.get_distance() > 0.5:
-        print('hehe')
         car.up()
     else:
         pass
