@@ -189,6 +189,7 @@ class Car:
         self.p2.ChangeDutyCycle(self.speed)
 
     def up(self):
+        print('up')
         gpio.output(self.channel[0], gpio.HIGH)
         gpio.output(self.channel[2], gpio.HIGH)
         gpio.output(self.channel[1], gpio.LOW)
@@ -237,7 +238,7 @@ class Car:
                 t2 = time.time()
                 break
         print((t2-t1)*340/2)
-        self.distance = int((t2-t1)*340/2)
+        self.distance = float((t2-t1)*340/2)
         return self.distance
 
     def auto_control(self):
