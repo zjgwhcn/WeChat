@@ -5,7 +5,7 @@ import json
 import urllib.request
 import requests
 from flask import render_template
-from .main import humiture, humaninfrared, motor
+from . import humiture, humaninfrared, motor
 import threading
 from . import car
 
