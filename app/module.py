@@ -193,7 +193,7 @@ class Car:
         gpio.output(self.channel[2], gpio.HIGH)
         gpio.output(self.channel[1], gpio.LOW)
         gpio.output(self.channel[3], gpio.LOW)
-        t = Thread(target=Car.auto_stop, args=(self,))
+        t = Thread(target=Car.auto_control, args=(self,))
         t.setDaemon(True)
         t.start()
 
