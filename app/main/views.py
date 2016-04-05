@@ -31,8 +31,7 @@ def wechat():
 
 @main.route('/')
 def monitor():
-    do_auto_move_off()
-    do_auto_safe_off()
+    shutdown()
     return render_template('index.html')
 
 
