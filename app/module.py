@@ -248,7 +248,7 @@ class Car:
                 self.flag = False
             else:
                 continue
-
+        self.flag = True
         self.servos.left()
         distance_left = self.get_distance()
         self.servos.right()
