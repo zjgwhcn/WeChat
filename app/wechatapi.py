@@ -163,7 +163,7 @@ def reply_text(toUser, fromUser, content):
 
 
 def do_monitor(toUser,fromUser,root):
-    return render_template('text.xml',toUser=fromUser,fromUser=toUser,creatTime=int(time.time()),content='请点击<a href="http://cjjw.wicp.net/">跳转</a>到监控页面')
+    return render_template('text.xml',toUser=fromUser,fromUser=toUser,createTime=int(time.time()),content='请点击<a href="http://cjjw.wicp.net/">跳转</a>到监控页面')
 
 def do_get_temperture(toUser, fromUser, root):
     t = threading.Thread(target=get_temperture)

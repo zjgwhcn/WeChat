@@ -22,6 +22,8 @@ def wechat():
         msgType = root.find('MsgType').text
         toUser = root.find('ToUserName').text
         fromUser = root.find('FromUserName').text
+        if fromUser != 'oq8wpxE9mj9lZr8JjlgMKa1ZMTTw':
+            return render_template('text.xml',toUser=fromUser,fromUser=toUser,createtime=int(time.time()),content='对不起，你没有权限！')
         try:
             return rec_type[msgType](toUser, fromUser, root)
         except KeyError:
