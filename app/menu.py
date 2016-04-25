@@ -29,9 +29,9 @@ data = {
                     "key": "V1001_SCREENSHOT"
                 },
                 {
-                    "type": "view",
+                    "type": "click",
                     "name": "实时监控",
-                    "url": "http://cjjw.wicp.net/"
+                    "key": "V1001_MONITOR"
                 },
                 {
                     "type": "click",

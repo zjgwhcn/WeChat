@@ -162,6 +162,9 @@ def reply_text(toUser, fromUser, content):
                            createTime=int(time.time()), content=content)
 
 
+def do_monitor(toUser,fromUser,root):
+    return render_template('text.xml',toUser=fromUser,fromUser=toUser,creatTime=int(time.time()),content='请点击<a href="http://cjjw.wicp.net/">跳转</a>到监控页面')
+
 def do_get_temperture(toUser, fromUser, root):
     t = threading.Thread(target=get_temperture)
     t.start()
@@ -242,11 +245,11 @@ rec_type = {
 event_type = {
     'subscribe': reply_subscribe,
     'unsubcribe': reply_unsubscribe,
-    'CLICK': reply_click,
-    'VIEW': reply_view
+    'CLICK': reply_click
 }
 
 click_type = {
+    'V1001_MONITOR': do_monitor,
     'V1001_TEMPERATURE': do_get_temperture,
     "V1001_SCREENSHOT": do_screen_shot,
     "V1001_AUTOSAFE_ON": do_auto_safe_on,
