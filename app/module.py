@@ -180,6 +180,7 @@ class Car:
         self.p2.start(self.speed)
 
     def speedplus(self):
+        self.stop()
         self.p1.ChangeDutyCycle(0)
         self.p2.ChangeDutyCycle(0)
         self.speed += 10
@@ -190,9 +191,9 @@ class Car:
         self.p2.ChangeDutyCycle(self.speed)
 
     def speedreduce(self):
+        self.stop()
         self.p1.ChangeDutyCycle(0)
         self.p2.ChangeDutyCycle(0)
-        self.stop()
         self.speed -= 10
         if self.speed < 10:
             self.speed = 10
