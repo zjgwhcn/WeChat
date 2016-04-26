@@ -15,6 +15,7 @@ class ModuleHumiture:
         t.setDaemon(True)
         t.start()
 
+
     def startsignal(self):
         # 发送开始信号
         gpio.setup(self.channel, gpio.OUT)
@@ -158,6 +159,7 @@ class Car:
         self.distance = 0
         self.flag = True
         self.t = 0
+        self.hand = False
         self.servos = Servos()
 
         self.init_car()
@@ -232,8 +234,11 @@ class Car:
         self.stop()
 
     def stop(self):
+        self.flag = False
         for i in self.channel:
             gpio.output(i, gpio.LOW)
+        self.flag = True
+        self.t = 0
 
     def get_distance(self):
         t1, t2 = 0, 0
@@ -256,24 +261,26 @@ class Car:
 
         while self.flag:
             if self.get_distance() < 0.2:
+                self.hand = False
                 self.stop()
                 self.flag = False
                 print('结束自动控制')
             else:
                 print('继续自动控制')
                 continue
-        self.flag = True
-        self.t = 0
-        self.servos.left()
-        distance_left = self.get_distance()
-        self.servos.right()
-        self.servos.right()
-        distance_right = self.get_distance()
-        self.servos.left()
-        if distance_left > distance_right:
-            self.left()
+        if self.hand:
+            pass
         else:
-            self.right()
+            self.servos.left()
+            distance_left = self.get_distance()
+            self.servos.right()
+            self.servos.right()
+            distance_right = self.get_distance()
+            self.servos.left()
+            if distance_left > distance_right:
+                self.left()
+            else:
+                self.right()
 
 
 class Servos:
