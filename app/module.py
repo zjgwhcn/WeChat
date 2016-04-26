@@ -262,6 +262,7 @@ class Car:
 
         while self.flag:
             if self.get_distance() < 0.2:
+                self.stop()
                 self.hand = False
                 self.flag = False
                 print('结束自动控制')
