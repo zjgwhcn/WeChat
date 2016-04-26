@@ -9,6 +9,10 @@ class ModuleHumiture:
 
     def __init__(self, channel):
         self.channel = channel
+        self.humiture = ''
+        self.temperature = 0
+        t = Thread(target=ModuleHumiture.get_humiture,args=(self,))
+        t.start()
 
     def startsignal(self):
         # 发送开始信号
@@ -75,13 +79,16 @@ class ModuleHumiture:
 
         tmp = humidity + humidity_point + temperature + temperature_point
         if check == tmp:
-            return (u"当前温度为%d℃,相对湿度为%d%%") % (temperature, humidity)
+            self.humiture =  (u"当前温度为%d℃,相对湿度为%d%%") % (temperature, humidity)
+            self.temperature = temperature
+            return
         else:
             return self.getdata()
 
     def get_humiture(self):
-        # channel = 4
-        return self.getdata()
+        while True:
+            self.getdata()
+            time.sleep(5)
 
 
 class ModuleHumanInfraredInduction:
@@ -148,6 +155,7 @@ class Car:
         self.p2 = None
         self.distance = 0
         self.flag = True
+        self.t = 0
         self.servos = Servos()
 
         self.init_car()
@@ -193,9 +201,11 @@ class Car:
         gpio.output(self.channel[2], gpio.HIGH)
         gpio.output(self.channel[1], gpio.LOW)
         gpio.output(self.channel[3], gpio.LOW)
-        t = Thread(target=Car.auto_control, args=(self,))
-        t.setDaemon(True)
-        t.start()
+        if self.t == 0:
+            self.t = 1
+            t = Thread(target=Car.auto_control, args=(self,))
+            t.setDaemon(True)
+            t.start()
 
     def down(self):
         gpio.output(self.channel[1], gpio.HIGH)
@@ -246,9 +256,12 @@ class Car:
             if self.get_distance() < 0.2:
                 self.stop()
                 self.flag = False
+                print('结束自动控制')
             else:
+                print('继续自动控制')
                 continue
         self.flag = True
+        self.t = 0
         self.servos.left()
         distance_left = self.get_distance()
         self.servos.right()

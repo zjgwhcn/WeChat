@@ -65,8 +65,8 @@ def get_openid():
 idlist = get_openid()
 
 
-def get_temperture():
-    custom_reply('text', humiture.get_humiture())
+# def get_temperture():
+#     custom_reply('text', humiture.get_humiture())
 
 
 def check_safe():
@@ -81,6 +81,8 @@ def check_safe():
             car.right()
             custom_reply('img', upload())
             car.left()
+        if humiture.temperature > 30:
+            custom_reply('text','室内温度超过30°')
 
 def custom_reply(msgType, content):
     global idlist
@@ -166,10 +168,10 @@ def do_monitor(toUser,fromUser,root):
     return render_template('text.xml',toUser=fromUser,fromUser=toUser,createTime=int(time.time()),content='请点击<a href="http://cjjw.wicp.net/">跳转</a>到监控页面')
 
 def do_get_temperture(toUser, fromUser, root):
-    t = threading.Thread(target=get_temperture)
-    t.start()
+    # t = threading.Thread(target=get_temperture)
+    # t.start()
     return render_template('text.xml', toUser=fromUser, fromUser=toUser,
-                           createTime=int(time.time()), content=u'正在获取温湿度,请稍后...')
+                           createTime=int(time.time()), content=humiture.humiture)
 
 
 def do_screen_shot(toUser, fromUser, root):
