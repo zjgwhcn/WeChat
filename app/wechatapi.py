@@ -7,7 +7,7 @@ import requests
 from flask import render_template
 from . import humiture, humaninfrared, motor
 import threading
-from . import car
+from .main.views import left, right
 
 
 OFF = 0
@@ -75,12 +75,12 @@ def check_safe():
         if humaninfrared.has_people():
             custom_reply('text', '有人进入监控范围')
             custom_reply('img', upload())
-            car.left()
+            left()
             custom_reply('img', upload())
-            car.right()
-            car.right()
+            right()
+            right()
             custom_reply('img', upload())
-            car.left()
+            left()
         if humiture.temperature > 30:
             custom_reply('text','室内温度超过30°')
 
