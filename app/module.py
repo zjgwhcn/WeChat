@@ -237,6 +237,7 @@ class Car:
         self.flag = False
         for i in self.channel:
             gpio.output(i, gpio.LOW)
+        time.sleep(1)
         self.flag = True
         self.t = 0
 

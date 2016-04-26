@@ -102,6 +102,7 @@ def carright():
 
 @main.route('/carstop')
 def carstop():
+    car.hand = True
     car.stop()
     return '0'
 
