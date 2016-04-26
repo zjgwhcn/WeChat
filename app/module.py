@@ -12,6 +12,7 @@ class ModuleHumiture:
         self.humiture = ''
         self.temperature = 0
         t = Thread(target=ModuleHumiture.get_humiture,args=(self,))
+        t.setDaemon(True)
         t.start()
 
     def startsignal(self):
@@ -55,7 +56,7 @@ class ModuleHumiture:
             else:
                 data.append(1)
 
-        print("sensor working!")
+        # print("sensor working!")
 
         # 数据解析
         humidity_bit = data[0:8]
@@ -81,6 +82,7 @@ class ModuleHumiture:
         if check == tmp:
             self.humiture =  (u"当前温度为%d℃,相对湿度为%d%%") % (temperature, humidity)
             self.temperature = temperature
+            print(self.temperature)
             return
         else:
             return self.getdata()
