@@ -17,6 +17,7 @@ flag_hand = False
 servos = Servos()
 channel = [24, 25, 5, 6]
 speed = 10
+frequency = 8
 
 for i in channel:
     gpio.setup(i, gpio.OUT)
