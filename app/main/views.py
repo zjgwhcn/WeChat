@@ -16,13 +16,13 @@ class Servos:
 
     def right(self):
         self.p.ChangeDutyCycle(2.5)
-        time.sleep(0.1)
+        time.sleep(0.2)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
     def left(self):
         self.p.ChangeDutyCycle(12.5)
-        time.sleep(0.1)
+        time.sleep(0.2)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
