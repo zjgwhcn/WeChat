@@ -142,6 +142,7 @@ def auto_control():
     if flag_hand:
         pass
     else:
+        print('脱机')
         global servos
         servos.left()
         distance_left = get_distance()
