@@ -200,7 +200,7 @@ def wechat():
 @main.route('/')
 def monitor():
     shutdown()
-    return render_template('index.html')
+    return render_template('index2.html')
 
 
 @main.route('/left')
