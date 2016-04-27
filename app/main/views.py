@@ -15,14 +15,16 @@ class Servos:
         self.p.start(0)
 
     def right(self):
+        print('右')
         self.p.ChangeDutyCycle(2.5)
-        time.sleep(0.2)
+        time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
     def left(self):
+        print('左')
         self.p.ChangeDutyCycle(12.5)
-        time.sleep(0.2)
+        time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
@@ -55,7 +57,6 @@ p2.start(speed)
 
 def speedplus():
     global speed
-    stop()
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
     speed += 10
@@ -68,7 +69,6 @@ def speedplus():
 
 def speedreduce():
     global speed
-    stop()
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
     speed -= 10
@@ -85,11 +85,11 @@ def up():
     gpio.output(channel[2], gpio.HIGH)
     gpio.output(channel[1], gpio.LOW)
     gpio.output(channel[3], gpio.LOW)
-    # if flag_t == 0:
-    #     flag_t = 1
-    t = Thread(target=auto_control)
-    t.setDaemon(True)
-    t.start()
+    if flag_t == 0:
+        flag_t = 1
+        t = Thread(target=auto_control)
+        t.setDaemon(True)
+        t.start()
 
 
 def down():
@@ -146,7 +146,7 @@ def get_distance():
 
 
 def auto_control():
-    global flag, flag_hand
+    global flag, flag_hand, flag_t
     while flag:
         if get_distance() < 0.2:
             stop()
@@ -154,6 +154,7 @@ def auto_control():
             flag = False
         else:
             continue
+    flag_t = 0
     if flag_hand:
         pass
     else:
