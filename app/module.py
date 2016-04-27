@@ -8,6 +8,7 @@ gpio.setmode(gpio.BCM)
 class ModuleHumiture:
 
     def __init__(self, channel):
+        print('初始化温湿度传感器')
         self.channel = channel
         self.humiture = ''
         self.temperature = 0
