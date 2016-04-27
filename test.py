@@ -6,7 +6,8 @@ from threading import Thread
 app = Flask(__name__)
 
 app.debug = True
-
+gpio.setwarnings(False)
+gpio.setmode(gpio.BCM)
 
 class Servos:
     def __init__(self):
