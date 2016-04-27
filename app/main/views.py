@@ -2,9 +2,7 @@ from flask import render_template, current_app, request
 from . import main
 from .. import motor, humaninfrared, humiture
 import os
-
-impor
-RPi.GPIO as gpio
+import RPi.GPIO as gpio
 from ..wechatapi import *
 import xml.etree.ElementTree as ET
 from threading import Thread
