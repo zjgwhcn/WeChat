@@ -6,7 +6,25 @@ import RPi.GPIO as gpio
 from ..wechatapi import *
 import xml.etree.ElementTree as ET
 from threading import Thread
-from ..module import Servos
+
+
+class Servos:
+    def __init__(self):
+        gpio.setup(21, gpio.OUT)
+        self.p = gpio.PWM(21, 50)
+        self.p.start(0)
+
+    def right(self):
+        self.p.ChangeDutyCycle(2.5)
+        time.sleep(0.1)
+        self.p.ChangeDutyCycle(0)
+        time.sleep(0.2)
+
+    def left(self):
+        self.p.ChangeDutyCycle(12.5)
+        time.sleep(0.1)
+        self.p.ChangeDutyCycle(0)
+        time.sleep(0.2)
 
 pin1 = 22
 pin2 = 23
