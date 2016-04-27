@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 import RPi.GPIO as gpio
 from app.module import Servos
+import time
+from threading import Thread
 
 app = Flask(__name__)
 
@@ -8,11 +10,11 @@ app.debug = True
 
 pin1 = 22
 pin2 = 23
-distance = 0
-flag = True
-flag_t = 0
-flag_hand = False
-servos = Servos()
+# distance = 0
+# flag = True
+# flag_t = 0
+# flag_hand = False
+# servos = Servos()
 channel = [24, 25, 5, 6]
 speed = 10
 frequency = 8
@@ -35,20 +37,20 @@ p2.start(speed)
 
 def speedplus():
     global speed
-    stop()
+    # stop()
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
     speed += 10
     if speed > 100:
         speed = 100
-    print(speed)
+    # print(speed)
     p1.ChangeDutyCycle(speed)
     p2.ChangeDutyCycle(speed)
 
 
 def speedreduce():
     global speed
-    stop()
+    # stop()
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
     speed -= 10
@@ -60,16 +62,16 @@ def speedreduce():
 
 
 def up():
-    global flag_t
+    # global flag_t
     gpio.output(channel[0], gpio.HIGH)
     gpio.output(channel[2], gpio.HIGH)
     gpio.output(channel[1], gpio.LOW)
     gpio.output(channel[3], gpio.LOW)
-    if flag_t == 0:
-        flag_t = 1
-        t = Thread(target=auto_control)
-        t.setDaemon(True)
-        t.start()
+    # if flag_t == 0:
+    #     flag_t = 1
+    #     t = Thread(target=auto_control)
+    #     t.setDaemon(True)
+    #     t.start()
 
 
 def down():
@@ -98,13 +100,13 @@ def car_left():
 
 
 def stop():
-    global flag, flag_t
-    flag = False
+    # global flag, flag_t
+    # flag = False
     for i in channel:
         gpio.output(i, gpio.LOW)
-    time.sleep(1)
-    flag = True
-    flag_t = 0
+        # time.sleep(1)
+        # flag = True
+        # flag_t = 0
 
 
 def get_distance():
@@ -159,10 +161,11 @@ def index():
 
 @app.route('/moveup')
 def moveup():
-    if get_distance() > 0.2:
-        up()
-    else:
-        pass
+    # if get_distance() > 0.2:
+    #     up()
+    # else:
+    #     pass
+    up()
     return '0'
 
 
@@ -186,8 +189,8 @@ def carright():
 
 @app.route('/carstop')
 def carstop():
-    global flag_hand
-    flag_hand = True
+    # global flag_hand
+    # flag_hand = True
     stop()
     return '0'
 
