@@ -149,9 +149,9 @@ def auto_control():
         distance_right = get_distance()
         servos.left()
         if distance_left > distance_right:
-            left()
+            car_left()
         else:
-            right()
+            car_right()
 
 @main.route('/weixin', methods=['GET', 'POST'])
 def wechat():
