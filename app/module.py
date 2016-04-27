@@ -8,7 +8,6 @@ gpio.setmode(gpio.BCM)
 class ModuleHumiture:
 
     def __init__(self, channel):
-        print('初始化温湿度传感器')
         self.channel = channel
         self.humiture = ''
         self.temperature = 0
@@ -84,7 +83,6 @@ class ModuleHumiture:
         if check == tmp:
             self.humiture =  (u"当前温度为%d℃,相对湿度为%d%%") % (temperature, humidity)
             self.temperature = temperature
-            print(self.temperature)
             return
         else:
             return self.getdata()
@@ -267,9 +265,7 @@ class Car:
                 self.stop()
                 self.hand = False
                 self.flag = False
-                print('结束自动控制')
             else:
-                print('继续自动控制')
                 continue
         if self.hand:
             pass

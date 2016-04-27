@@ -15,14 +15,12 @@ class Servos:
         self.p.start(0)
 
     def right(self):
-        print('脱机右')
         self.p.ChangeDutyCycle(2.5)
         time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
     def left(self):
-        print('脱机左')
         self.p.ChangeDutyCycle(12.5)
         time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
@@ -87,11 +85,11 @@ def up():
     gpio.output(channel[2], gpio.HIGH)
     gpio.output(channel[1], gpio.LOW)
     gpio.output(channel[3], gpio.LOW)
-    if flag_t == 0:
-        flag_t = 1
-        t = Thread(target=auto_control)
-        t.setDaemon(True)
-        t.start()
+    # if flag_t == 0:
+    #     flag_t = 1
+    t = Thread(target=auto_control)
+    t.setDaemon(True)
+    t.start()
 
 
 def down():
@@ -142,7 +140,7 @@ def get_distance():
         if not gpio.input(12):
             t2 = time.time()
             break
-    print((t2 - t1) * 340 / 2)
+    # print((t2 - t1) * 340 / 2)
     distance = float((t2 - t1) * 340 / 2)
     return distance
 
@@ -154,15 +152,11 @@ def auto_control():
             stop()
             flag_hand = False
             flag = False
-            print('结束自动控制')
         else:
-            print('继续自动控制')
             continue
-    print(flag_hand)
     if flag_hand:
         pass
     else:
-        print('脱机')
         global servos
         servos.left()
         distance_left = get_distance()
