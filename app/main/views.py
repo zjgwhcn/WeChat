@@ -138,6 +138,7 @@ def auto_control():
         else:
             print('继续自动控制')
             continue
+    print(flag_hand)
     if flag_hand:
         pass
     else:
