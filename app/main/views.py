@@ -15,14 +15,14 @@ class Servos:
         self.p.start(0)
 
     def right(self):
-        print('右')
+        # print('右')
         self.p.ChangeDutyCycle(2.5)
         time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
     def left(self):
-        print('左')
+        # print('左')
         self.p.ChangeDutyCycle(12.5)
         time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
@@ -59,22 +59,24 @@ def speedplus():
     global speed
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
+    time.sleep(0.1)
     speed += 10
     if speed > 100:
         speed = 100
-    print(speed)
+    print('加速', speed)
     p1.ChangeDutyCycle(speed)
     p2.ChangeDutyCycle(speed)
 
 
 def speedreduce():
     global speed
+    time.sleep(0.1)
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
     speed -= 10
     if speed < 10:
         speed = 10
-    print(speed)
+    print('减速', speed)
     p1.ChangeDutyCycle(speed)
     p2.ChangeDutyCycle(speed)
 
