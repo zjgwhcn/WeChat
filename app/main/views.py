@@ -15,12 +15,14 @@ class Servos:
         self.p.start(0)
 
     def right(self):
+        print('脱机右')
         self.p.ChangeDutyCycle(2.5)
         time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
         time.sleep(0.2)
 
     def left(self):
+        print('脱机左')
         self.p.ChangeDutyCycle(12.5)
         time.sleep(0.1)
         self.p.ChangeDutyCycle(0)
