@@ -1,12 +1,30 @@
 from flask import Flask, render_template
 import RPi.GPIO as gpio
-from app.module import Servos
 import time
 from threading import Thread
 
 app = Flask(__name__)
 
 app.debug = True
+
+
+class Servos:
+    def __init__(self):
+        gpio.setup(21, gpio.OUT)
+        self.p = gpio.PWM(21, 50)
+        self.p.start(0)
+
+    def right(self):
+        self.p.ChangeDutyCycle(2.5)
+        time.sleep(0.1)
+        self.p.ChangeDutyCycle(0)
+        time.sleep(0.2)
+
+    def left(self):
+        self.p.ChangeDutyCycle(12.5)
+        time.sleep(0.1)
+        self.p.ChangeDutyCycle(0)
+        time.sleep(0.2)
 
 pin1 = 22
 pin2 = 23
