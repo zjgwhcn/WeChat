@@ -83,9 +83,9 @@ def speedreduce():
 
 def up():
     global flag_t
-    gpio.output(channel[0], gpio.HIGH)
+    gpio.output(channel[1], gpio.HIGH)
     gpio.output(channel[2], gpio.HIGH)
-    gpio.output(channel[1], gpio.LOW)
+    gpio.output(channel[0], gpio.LOW)
     gpio.output(channel[3], gpio.LOW)
     if flag_t == 0:
         flag_t = 1
@@ -95,17 +95,17 @@ def up():
 
 
 def down():
-    gpio.output(channel[1], gpio.HIGH)
+    gpio.output(channel[0], gpio.HIGH)
     gpio.output(channel[3], gpio.HIGH)
-    gpio.output(channel[0], gpio.LOW)
+    gpio.output(channel[1], gpio.LOW)
     gpio.output(channel[2], gpio.LOW)
 
 
 def car_right():
     gpio.output(channel[3], gpio.LOW)
     gpio.output(channel[2], gpio.LOW)
-    gpio.output(channel[1], gpio.LOW)
-    gpio.output(channel[0], gpio.HIGH)
+    gpio.output(channel[1], gpio.HIGH)
+    gpio.output(channel[0], gpio.LOW)
     time.sleep(0.5)
     stop()
 
