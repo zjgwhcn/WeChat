@@ -81,7 +81,7 @@ def down():
     gpio.output(channel[2], gpio.LOW)
 
 
-def right():
+def car_right():
     gpio.output(channel[3], gpio.LOW)
     gpio.output(channel[2], gpio.LOW)
     gpio.output(channel[1], gpio.LOW)
@@ -90,7 +90,7 @@ def right():
     stop()
 
 
-def left():
+def car_left():
     gpio.output(channel[1], gpio.LOW)
     gpio.output(channel[0], gpio.LOW)
     gpio.output(channel[3], gpio.LOW)
@@ -237,13 +237,13 @@ def movedown():
 
 @main.route('/carleft')
 def carleft():
-    left()
+    car_left()
     return '0'
 
 
 @main.route('/carright')
 def carright():
-    right()
+    car_right()
     return '0'
 
 
