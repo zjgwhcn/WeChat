@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import RPi.GPIO as gpio
-from .module import servos
+from app.module import Servos
 
 app = Flask(__name__)
 
